@@ -1,7 +1,20 @@
 
 # MCP Server Demo
 
-This is a demonstration of the **MCP (Model Context Protocol)** server with **FastMCP**, **minsearch**, and **Jina Reader** to perform tasks like scraping web content and searching indexed documents. The main goal is to expose an MCP tool (`scrape_web`) and implement a search engine using `minsearch` for query-based document retrieval.
+<figure>
+<p align="center">
+  <img src="img/mcp.jpg" width="900" />
+  <figcaption>MCP (Model Context Protocol) is an open protocol for connecting AI systems to external tools and data sources. Image copied from <a href="https://www.civo.com/blog/what-is-mcp">this blogpost</a>.</figcaption>
+</p>
+</figure>
+
+MCP stands for Model Context Protocol. It’s a standard that lets AI models talk to external tools like your calendar, task manager, CRM, Notion, or Slack in a structured way. It was first introduced by Anthropic (the folks behind Claude) in late 2023.
+
+Right now, using AI is kind of like having a great assistant who can't actually take action on your behalf. You ask them to "Schedule a call with Sarah," and they respond with "That's a great idea!" but then don't lift a finger. MCP is like giving that assistant the keys to your digital workspace, allowing them to access your calendar, notes, and workflows. With this newfound access, they can not only understand your request but also execute it securely and with a deep understanding of the context.
+
+
+This project is a demonstration of the **MCP (Model Context Protocol)** server with **FastMCP**, **minsearch**, and **Jina Reader** to perform tasks like scraping web content and searching indexed documents. The main goal is to expose an MCP tool (`scrape_web`) and implement a search engine using `minsearch` for query-based document retrieval.
+
 
 ## Table of Contents
 1. [Project Setup](#project-setup)
