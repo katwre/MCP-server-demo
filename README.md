@@ -70,14 +70,38 @@ Additionally, the server includes a **`count_word_on_page`** tool that counts ho
 
 ```python
 import re
-from main import scrape_web_raw
+import requests
+from bs4 import BeautifulSoup
+from jina import mcp  # MCP system tool and agent decorators
 
+# A function to scrape the raw content from the web page
+def get_raw_text_from_web(url: str) -> str:
+    """Fetch and parse content from a webpage."""
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # Extract the text, cleaning up the page (e.g., removing JavaScript, styles, etc.)
+    text = soup.get_text(separator=' ', strip=True)
+    return text
+
+# The tool and agent definitions follow
 @mcp.tool
-def count_word_on_page(url: str, word: str) -> int:
-    # Count whole-word occurrences of `word` (case-insensitive) on `url`
-    text = scrape_web_raw(url)
-    pattern = rf"{re.escape(word)}"
-    return len(re.findall(pattern, text, flags=re.IGNORECASE))
+def scrape_web_raw(url: str) -> str:
+    """Scrape raw content from the web page."""
+    return get_raw_text_from_web(url)
+
+@mcp.agent
+def count_word_on_page(url: str, word: str) -> str:
+    """
+    Use the LLM agent to count the occurrences of `word` on a web page.
+    The agent scrapes the page, counts the word, and returns the result.
+    """
+    # Prompt to LLM: "Scrape the web page and count the occurrences of the word."
+    prompt = f"Scrape the content of the page at {url} and count how many times the word '{word}' appears."
+    
+    # The LLM will process the task here (scraping and counting) based on the prompt
+    result = mcp.llm_tool(prompt)  # This is where the LLM directly handles the task
+
+    return result  # The result is a human-readable response like: "The word 'MCP' appears 5 times on the page."
 ```
 
 ## Search Tool
